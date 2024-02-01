@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/model/Users';
 import { UsersDataService } from 'src/app/service/users-data.service';
 
@@ -10,53 +10,136 @@ import { UsersDataService } from 'src/app/service/users-data.service';
 })
 export class UserListComponent implements OnInit {
 
-  users:User[]=[];
+  users: User[] = [];
+
+  filteredUser:User[]=[];
+
+  isUserCreate:boolean = false;
+
+  editMode: boolean = false;
+
+  currentId: string = '';
+
+  errorMsg:string='';
+
+  searchText:string='';
 
   userForm: FormGroup;
 
   constructor(private userDataService: UsersDataService,
-              private fb: FormBuilder) { }
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.userForm = this.fb.group({
-      name: [null],
-      profile: [null],
-      bio: [null],
-      interests:[null],
-      role: [null]
+      name: [null,[Validators.required, Validators.pattern(/^[a-zA-Z ]*$/) ]],
+      profile: [null,[Validators.required]],
+      bio: [null,[Validators.required]],
+      interests: [null, [Validators.required]],
+      role: [null, [Validators.required]]
     });
 
-    this.onGetUser();
-    
+    this.getUser();
+
   }
 
+  addForm(){
+    this.isUserCreate = !this.isUserCreate;
+  }
 
   //post user
-  OnFormSubmit(users:{
-    name:string;
-    profile:string;
-    bio:string;
-    interests:string;
-    role:string;
+  OnFormSubmit(users: {
+    name: string;
+    profile: string;
+    bio: string;
+    interests: string;
+    role: string;
   }) {
     console.log(this.userForm.value);
-    this.userDataService.createUser(users).subscribe((res)=>{
-      console.log(res);
-    })
+    if (!this.editMode) {
+      this.userDataService.createUser(users).subscribe((res) => {
+        console.log(res);
+        this.userForm.reset();
+
+        this.onFetchUsers();
+
+        this.isUserCreate=false;
+      })
+    }
+    else {
+      this.userDataService.UpdateUser(this.currentId, users).subscribe((res)=>{
+        console.log(res);
+        this.editMode = false;
+        this.userForm.reset();
+
+        this.onFetchUsers();
+
+        this.isUserCreate=false;
+      })
+    }
   }
 
 
   //get user
-  onGetUser(){
-    this.userDataService.getUser().subscribe((res)=>{
+  onFetchUsers() {
+    this.getUser();
+  }
+
+  private getUser() {
+    this.userDataService.getUser().subscribe((res) => {
       console.log(res)
-      this.users=res;
+      this.users = res;
+
+      if(!this.searchText){
+        this.filteredUser = this.users;
+      }
+
     })
+
   }
 
   //update user
-  
+  editForm(id:string) {
+    this.isUserCreate=true;
+
+    this.currentId = id;
+    let currentUser = this.users.find((p) => { return p.id === id })
+
+    this.userForm.setValue({
+      name: currentUser.name,
+      profile: currentUser.profile,
+      bio: currentUser.bio,
+      interests: currentUser.interests,
+      role: currentUser.role
+    })
+
+    this.editMode = true;
+
+
+  }
+
 
   //delete user
+  onDeleteUser(id:string){
+    const userResponse = window.confirm('Do you want to delete the user?');
+    if(userResponse){
+      this.userDataService.deleteUser(id).subscribe((res)=>{
+        console.log(res);
+        this.onFetchUsers();
+      })
+    }else{
+      return
+    }
+
+  }
+
+  onSearchByName(name:string){
+    this.searchText=name;
+
+    this.userDataService.searchByName(name).subscribe((res)=>{
+      this.filteredUser=res;
+    })
+  }
+
+  
 
 }

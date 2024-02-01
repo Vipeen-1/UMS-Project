@@ -1,4 +1,46 @@
-<div class="container mt-5">
+<app-search (searchText)="onSearchByName($event)" ></app-search>
+
+<div>
+    <div>
+        <p>Welcome, <strong></strong></p>
+    </div>
+</div>
+
+<div *ngIf="!isUserCreate">
+    <button (click)="addForm()">Add Users</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Profile</th>
+                <th>Bio</th>
+                <th>Interests</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of filteredUser">
+                <td>{{user.name}}</td>
+                <td><img src="{{user.profile}}"
+                    class="card-img-top" alt="User Image" height="100" width="40"></td>
+                <td>{{user.bio}}</td>
+                <td>{{user.interests}}</td>
+                <td>{{user.role}}</td>
+                <td>
+                    <button (click)="onDeleteUser(user.id)" class="btn btn-danger">Delete</button>
+                    <button (click)="editForm(user.id)" class="btn btn-primary">Edit</button>
+                    <a [routerLink]="'/view-more' + user.id" class="btn btn-link">View More</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="container mt-5" *ngIf="isUserCreate">
+    <button (click)="addForm()">back</button>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h2 class="justify-content-center">User Form</h2>
@@ -73,22 +115,10 @@
                     </small>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" >{{editMode? 'Save':'Submit'}}</button>
             </form>
         </div>
     </div>
 </div>
 
 
-<div>
-    <div *ngFor="let user of users">
-        <p>{{user.name}}</p>
-        <p>{{user.profile}}</p>
-        <p>{{user.bio}}</p>
-        <p>{{user.interests}}</p>
-        <p>{{user.role}}</p>
-        <button (click)="onDeleteUser(user.id)" class="btn btn-danger">Delete</button>
-        <button (click)="editForm(user.id)" class="btn btn-primary">Edit</button>
-        <br>
-    </div>
-</div>

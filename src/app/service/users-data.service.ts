@@ -47,5 +47,31 @@ export class UsersDataService {
     return this.http.delete(`https://user-proj-1-default-rtdb.firebaseio.com/user/${id}.json`)
   }
 
+  //search by name
+  searchByName(name){
+    return this.http.get<any>(this.api).pipe(
+      map((res)=>{
+        let data=[];
+        for(let key in res){
+          if(res.hasOwnProperty(key)){
+            data.push({...res[key], id:key})
+          }
+        }
+        return data;
+      })
+    ).pipe(
+      map((user)=>{
+        if(Array.isArray(user)){
+          return user.filter((p)=>{
+            return (p.name.toLowerCase().include(name.toLowerCase()) || p.interests.toLowerCase().include(name.toLowerCase()))
+          })
+        }else{
+          return [];
+        }
+
+      })
+    )
+  }
+
 
 }

@@ -12,11 +12,14 @@ import { UserDetailComponent } from './container/user-detail/user-detail.compone
 import { Router, RouterLink, RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'
 import { ReactiveFormsModule } from '@angular/forms';
+import { SearchComponent } from './container/search/search.component';
 
 
 
 const routes:Routes=[
-  {path: 'Home',component:HomeComponent}
+  {path: '' , component:UserListComponent},
+  {path: 'Home',component:HomeComponent},
+  // {path: 'About',component: }
 ]
 
 
@@ -29,7 +32,8 @@ const routes:Routes=[
     TopMenuComponent,
     MainMenuComponent,
     UserListComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
