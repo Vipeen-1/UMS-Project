@@ -1,0 +1,94 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="justify-content-center">User Form</h2>
+            <form [formGroup]="userForm" (ngSubmit)="OnFormSubmit(userForm.value)">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" id="name" class="form-control" formControlName="name" placeholder="Name...">
+                    <small *ngIf="userForm.get('name').invalid && userForm.get('name').touched"
+                        class="form-text text-danger">
+                        Please enter a name
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="profile" class="form-label">Profile Url:</label>
+                    <input type="text" id="profile" class="form-control" formControlName="profile"
+                        placeholder="Profile URL...">
+                    <small *ngIf="userForm.get('profile').invalid && userForm.get('profile').touched"
+                        class="form-text text-danger">
+                        Please enter a profile URL
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio:</label>
+                    <textarea id="bio" class="form-control" formControlName="bio" placeholder="Bio..."></textarea>
+                    <small *ngIf="userForm.get('bio').invalid && userForm.get('bio').touched"
+                        class="form-text text-danger">
+                        Please enter a bio
+                    </small>
+                </div>
+
+
+                <!-- <div class="mb-3 form-check">
+                    <p>Interests:</p>
+                    <input type="checkbox" id="siebel" [formControl]="userForm.get('interests.siebel')" value="siebel">
+                    <label for="siebel"> Siebel</label>
+
+                    <input type="checkbox" id="digital" [formControl]="userForm.get('interests.digital')"
+                        value="digital">
+                    <label for="digital"> Digital</label>
+
+                    <input type="checkbox" id="hr" [formControl]="userForm.get('interests.hr')" value="hr">
+                    <label for="hr"> HR</label>
+                </div> -->
+
+                <div class="mb-3">
+                    <label for="interests" class="form-label">Interests:</label>
+                    <select class="form-select" formControlName="interests" aria-label="interests">
+                        <option value="siebel">Siebel</option>
+                        <option value="digital">Digital</option>
+                        <option value="hr">Hr</option>
+                    </select>
+                    <small *ngIf="userForm.get('interests').invalid && userForm.get('interests').touched"
+                        class="form-text text-danger">
+                        Please select interests
+                    </small>
+                </div>
+
+
+
+
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <select class="form-select" formControlName="role" aria-label="Role">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                    <small *ngIf="userForm.get('role').invalid && userForm.get('role').touched"
+                        class="form-text text-danger">
+                        Please select a role
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div *ngFor="let user of users">
+        <p>{{user.name}}</p>
+        <p>{{user.profile}}</p>
+        <p>{{user.bio}}</p>
+        <p>{{user.interests}}</p>
+        <p>{{user.role}}</p>
+        <button (click)="onDeleteUser(user.id)" class="btn btn-danger">Delete</button>
+        <button (click)="editForm(user.id)" class="btn btn-primary">Edit</button>
+        <br>
+    </div>
+</div>
