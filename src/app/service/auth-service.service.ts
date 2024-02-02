@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, tap } from 'rxjs';
 import { AuthResponse } from '../auth_interface/auth-response';
 import { AuthUser } from '../model/auths';
+import { AuthComponent } from '../auth/auth.component';
 
 @Injectable({
   providedIn: 'root'

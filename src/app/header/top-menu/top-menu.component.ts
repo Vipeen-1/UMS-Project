@@ -9,6 +9,7 @@ import { AuthServiceService } from 'src/app/service/auth-service.service';
 export class TopMenuComponent {
 
   isLogged:boolean = false;
+  userTimer:any;
 
   userProfile
 
@@ -20,7 +21,10 @@ export class TopMenuComponent {
 
   ngOnInit(){
     this._authService.user.subscribe(res=>{
-       this.isLogged= res ? true: false; 
+       this.isLogged= res ? true: false;
+       console.log(res);
+       this.userTimer=res;
+
     })
   }
 

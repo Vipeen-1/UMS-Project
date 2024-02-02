@@ -26,6 +26,8 @@ export class UserListComponent implements OnInit {
 
   userForm: FormGroup;
 
+  isFetching: boolean = false;
+
   constructor(private userDataService: UsersDataService,
     private fb: FormBuilder) { }
 
@@ -85,6 +87,7 @@ export class UserListComponent implements OnInit {
   }
 
   private getUser() {
+    this.isFetching=true;
     this.userDataService.getUser().subscribe((res) => {
       console.log(res)
       this.users = res;
@@ -93,9 +96,12 @@ export class UserListComponent implements OnInit {
         this.filteredUser = this.users;
       }
 
+      this.isFetching=false;
+
     },(err)=>{
       console.log(err);
       this.errorMsg=err.error;
+      this.isFetching=false;
     })
 
   }

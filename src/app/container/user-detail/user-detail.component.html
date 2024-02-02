@@ -4,7 +4,8 @@
             <div class="card mb-3">
                 <div class="card-body" *ngIf="detailedView">
                     <h5 class="card-title">{{ detailedView.name }}</h5>
-                    <p class="card-text"><strong>{{ detailedView.profile }}</strong></p>
+                    <p class="card-text"><img src="{{detailedView.profile}}"
+                        class="card-img-top" alt="User Image" height="300" width="200"></p>
                     <p class="card-text">{{ detailedView.bio }}</p>
                     <p class="card-text">{{ detailedView.interests }}</p>
                     <p class="card-text">{{ detailedView.role }}</p>

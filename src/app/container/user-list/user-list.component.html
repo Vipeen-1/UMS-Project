@@ -13,7 +13,17 @@
 </div>
 
 <div *ngIf="!isUserCreate && !errorMsg">
+
+
     <button (click)="addForm()">Add Users</button>
+    
+    <div *ngIf="users.length < 1 && !isFetching">
+        <p style="color: red;">No customer available</p>
+    </div>
+    <div *ngIf="isFetching">
+        <p style="color: red;">Loading...</p>
+    </div>
+    
     <table class="table">
         <thead>
             <tr>
@@ -26,14 +36,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of filteredUser">
-                <td>{{user.name}}</td>
-                <td><img src="{{user.profile}}"
-                    class="card-img-top" alt="User Image" height="100" width="40"></td>
-                <td>{{user.bio}}</td>
-                <td>{{user.interests}}</td>
-                <td>{{user.role}}</td>
-                <td>
+            <tr appProfileHighlight *ngFor="let user of filteredUser">
+                <td appProfileHighlight>{{user.name | uppercase}}</td>
+                <td ><img src="{{user.profile}}" class="card-img-top" alt="User Image" height="100" width="40"></td>
+                <td appProfileHighlight>{{user.bio}}</td>
+                <td appProfileHighlight>{{user.interests}}</td>
+                <td appProfileHighlight>{{user.role}}</td>
+                <!-- <td appProfileHighlight>{{user.lastlogin | LastLoginPipe}}</td> -->
+                <td appProfileHighlight>
                     <button (click)="onDeleteUser(user.id)" class="btn btn-danger">Delete</button>
                     <button (click)="editForm(user.id)" class="btn btn-primary">Edit</button>
                     <a [routerLink]="'/View-More/' + user.id" class="btn btn-link">View More</a>
@@ -42,6 +52,7 @@
         </tbody>
     </table>
 </div>
+
 
 
 

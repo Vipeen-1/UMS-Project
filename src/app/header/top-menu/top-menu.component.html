@@ -8,21 +8,45 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <span >
+            <span *ngIf="!isLogged">
 
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/Login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/Register" [queryParams]="{SignUp:true}" (click)="OnRegisterClicked()">Register</a>
+                        <a class="nav-link" routerLink="/Register" [queryParams]="{SignUp:true}"
+                            (click)="OnRegisterClicked()">Register</a>
                     </li>
+
                 </ul>
             </span>
 
             <div *ngIf="isLogged">
+
+                <a class="dropdown-item" (click)="onSignOut()">Sign Out</a>
+                <span>{{userTimer._tokenExpirationDate | lastLogin }}</span>
+                
+
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        User
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">View Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Reset Password</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                    </ul>
+                </div>
+
+                <!-- <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" 
+                    data-bs-toggle="dropdown" aria-expanded="false">
                       <div class="d-flex align-items-center">
                       </div>
                     </button>
@@ -31,13 +55,13 @@
                       <li><a class="dropdown-item" routerLink="#">Edit Profile</a></li>
                       <li><a class="dropdown-item" routerLink="#">Reset Password</a></li>
                       <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" (click)="onSignOut()">Sign Out</a></li>
                       <li><a class="dropdown-item">Sign Out</a></li>
                     </ul>
-                  </div>
-                  
-
-                
+                  </div>  -->
             </div>
+
+
         </div>
     </div>
 </nav>

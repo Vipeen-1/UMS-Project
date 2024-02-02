@@ -15,15 +15,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './container/search/search.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { ProfileHighlightDirective } from './profile-highlight.directive';
+import { LastLoginPipe } from './CustomDate.pipe';
 
 
 
 const routes:Routes=[
-  {path: '' , component:UserListComponent},
+  {path: '' , component:AuthComponent},
   {path: 'Home',component:UserListComponent},
   {path: 'Login',component:AuthComponent},
   {path: 'View-More/:id',component:UserDetailComponent},
-  {path: 'About',component:UserDetailComponent}
+  {path: 'About',component:UserDetailComponent},
+  {path: 'Register',component:AuthComponent}
   // {path: 'About',component: }
 ]
 
@@ -39,7 +42,9 @@ const routes:Routes=[
     UserListComponent,
     UserDetailComponent,
     SearchComponent,
-    AuthComponent
+    AuthComponent,
+    ProfileHighlightDirective,
+    LastLoginPipe
   ],
   imports: [
     BrowserModule,
