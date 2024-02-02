@@ -8,7 +8,9 @@ import { map } from 'rxjs';
 })
 export class UsersDataService {
 
-  api="https://user-proj-1-default-rtdb.firebaseio.com/user.json"
+  api="https://user-proj-1-default-rtdb.firebaseio.com/user.json";
+
+  apiKey="AIzaSyCiraRFPtfR4bc4_-BTDqRr4jzZkdK7jOg";
 
   constructor(private http:HttpClient) { }
 
@@ -47,9 +49,14 @@ export class UsersDataService {
     return this.http.delete(`https://user-proj-1-default-rtdb.firebaseio.com/user/${id}.json`)
   }
 
+  //view more
+  ViewMore(id){
+    return this.http.get<any>(`https://user-proj-1-default-rtdb.firebaseio.com/user/${id}.json`)
+  }
+
   //search by name
   searchByName(name){
-    return this.http.get<any>(this.api).pipe(
+    return this.http.get(this.api).pipe(
       map((res)=>{
         let data=[];
         for(let key in res){
@@ -63,7 +70,7 @@ export class UsersDataService {
       map((user)=>{
         if(Array.isArray(user)){
           return user.filter((p)=>{
-            return (p.name.toLowerCase().include(name.toLowerCase()) || p.interests.toLowerCase().include(name.toLowerCase()))
+            return (p.name.toLowerCase().includes(name.toLowerCase()) || p.interests.toLowerCase().includes(name.toLowerCase()))
           })
         }else{
           return [];

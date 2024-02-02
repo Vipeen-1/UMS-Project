@@ -10,15 +10,20 @@ import { MainMenuComponent } from './header/main-menu/main-menu.component';
 import { UserListComponent } from './container/user-list/user-list.component';
 import { UserDetailComponent } from './container/user-detail/user-detail.component';
 import { Router, RouterLink, RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './container/search/search.component';
+import { AuthComponent } from './auth/auth.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 
 
 const routes:Routes=[
   {path: '' , component:UserListComponent},
-  {path: 'Home',component:HomeComponent},
+  {path: 'Home',component:UserListComponent},
+  {path: 'Login',component:AuthComponent},
+  {path: 'View-More/:id',component:UserDetailComponent},
+  {path: 'About',component:UserDetailComponent}
   // {path: 'About',component: }
 ]
 
@@ -33,7 +38,8 @@ const routes:Routes=[
     MainMenuComponent,
     UserListComponent,
     UserDetailComponent,
-    SearchComponent
+    SearchComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +47,13 @@ const routes:Routes=[
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

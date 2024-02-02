@@ -63,7 +63,7 @@ export class UserListComponent implements OnInit {
         this.onFetchUsers();
 
         this.isUserCreate=false;
-      })
+      },(err)=>{this.errorMsg=err.error})
     }
     else {
       this.userDataService.UpdateUser(this.currentId, users).subscribe((res)=>{
@@ -74,7 +74,7 @@ export class UserListComponent implements OnInit {
         this.onFetchUsers();
 
         this.isUserCreate=false;
-      })
+      },(err)=>{this.errorMsg=err.error})
     }
   }
 
@@ -93,6 +93,9 @@ export class UserListComponent implements OnInit {
         this.filteredUser = this.users;
       }
 
+    },(err)=>{
+      console.log(err);
+      this.errorMsg=err.error;
     })
 
   }
@@ -125,7 +128,7 @@ export class UserListComponent implements OnInit {
       this.userDataService.deleteUser(id).subscribe((res)=>{
         console.log(res);
         this.onFetchUsers();
-      })
+      },(err)=>{this.errorMsg=err.error})
     }else{
       return
     }
@@ -133,9 +136,11 @@ export class UserListComponent implements OnInit {
   }
 
   onSearchByName(name:string){
+    console.log('hello on search')
     this.searchText=name;
 
     this.userDataService.searchByName(name).subscribe((res)=>{
+      console.log('hello on search functions')
       this.filteredUser=res;
     })
   }

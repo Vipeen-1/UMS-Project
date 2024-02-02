@@ -1,4 +1,4 @@
-<app-search (searchText)="onSearchByName($event)" ></app-search>
+<app-search (searchTextChanged)="onSearchByName($event)" ></app-search>
 
 <div>
     <div>
@@ -6,7 +6,13 @@
     </div>
 </div>
 
-<div *ngIf="!isUserCreate">
+<div>
+    <div>
+        <p class="text-danger">{{errorMsg}}</p>
+    </div>
+</div>
+
+<div *ngIf="!isUserCreate && !errorMsg">
     <button (click)="addForm()">Add Users</button>
     <table class="table">
         <thead>
@@ -30,7 +36,7 @@
                 <td>
                     <button (click)="onDeleteUser(user.id)" class="btn btn-danger">Delete</button>
                     <button (click)="editForm(user.id)" class="btn btn-primary">Edit</button>
-                    <a [routerLink]="'/view-more' + user.id" class="btn btn-link">View More</a>
+                    <a [routerLink]="'/View-More/' + user.id" class="btn btn-link">View More</a>
                 </td>
             </tr>
         </tbody>
